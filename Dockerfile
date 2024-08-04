@@ -1,10 +1,9 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /usr/src
 
 COPY package*.json ./
 
-# Instala as dependências da aplicação
 RUN npm install
 
 COPY . .
