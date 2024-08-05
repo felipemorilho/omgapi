@@ -21,7 +21,7 @@ jobs:
         node-version: '20'  
 
     - name: Install dependencies
-      run: npm install express mongoose bcryptjs jsonwebtoken dotenv jest supertest
+      run: npm install
     
     - name: Run tests
       run: npx jest
@@ -31,6 +31,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Install dependencies
+      run: npm install
+
     - uses: actions/checkout@v3.1.0
     - name: Build
       run: npm start
