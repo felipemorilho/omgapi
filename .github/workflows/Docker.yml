@@ -32,3 +32,6 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: felipemorilho/omgapi:${{github.ref_name}}
+
+    - name: Run Docker Compose
+      run: docker-compose up -d --build
