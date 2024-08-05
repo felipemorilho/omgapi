@@ -27,7 +27,6 @@ jobs:
       run: npx jest
 
   build:
-
     needs: test
     runs-on: ubuntu-latest
 
@@ -40,9 +39,8 @@ jobs:
     - name: Docker Login
       uses: docker/login-action@v2.1.0
       with:
-        username: ${{ secrets.DOCKER_USERNAME}}
+        username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        
         
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.1.0
@@ -50,45 +48,19 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: felipemorilho/omgapi
+        tags: felipemorilho/omgapi:latest
 
   deploy:
-
     needs: build
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.1.0
+    - uses: actions/checkout@v3.1.0
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2.1.0
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: felipemorilho/omgapi
-
-      - name: Verify Docker Compose Installation
-        run: |
-          docker-compose --version 
-
-      - name: Docker Login
-        uses: docker/login-action@v2.1.0
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Pull Docker image
-        run: docker pull felipemorilho/omgapi
-        
-      - name: Deploy with Docker Compose
-        run: |
-          docker-compose up -d --build
+    - name: Deploy to Vercel
+      uses: BetaHuhn/deploy-to-vercel-action@v1
+      with:
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
