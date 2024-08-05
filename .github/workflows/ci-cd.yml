@@ -50,7 +50,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: felipemorilho/omgapi:${{github.ref_name}}
+        tags: felipemorilho/omgapi
 
   deploy:
 
@@ -87,7 +87,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Pull Docker image
-        run: docker pull felipemorilho/omgapi:${{github.ref_name}}
+        run: docker pull felipemorilho/omgapi
         
       - name: Deploy with Docker Compose
         run: |
