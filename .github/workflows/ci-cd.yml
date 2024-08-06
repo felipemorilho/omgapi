@@ -64,9 +64,6 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install dependencies
-      run: npm install
-
     - name: Deploy to Vercel
       run: |
         curl -fsSL https://vercel.com/download | bash
