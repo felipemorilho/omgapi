@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3.1.0
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
@@ -31,29 +31,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
 
-    - name: Setup Docker Buildx
-      uses: docker/setup-buildx-action@v2
+    - uses: actions/checkout@v3.1.0
+
+    - name: Setup Docker Build
+      uses: docker/setup-buildx-action@v2.1.0
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+       name: OMG
+       path: server.js
 
     - name: Docker Login
-      uses: docker/login-action@v2.0.0
+      uses: docker/login-action@v2.1.0
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_TOKEN }}
-
-    - name: Build and push Docker image
-      run: |
-        docker build -t omgapi .
-        docker tag omgapi:latest felipemorilho/omgapi:latest
-        docker push felipemorilho/omgapi:latest
+        
+  docker:
+    needs: build
+    uses: ./.github/workflows/Docker.yml
+    secrets: inherit
 
   deploy:
-    needs: build
+    needs: docker
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: npm install
 
     - name: Deploy to Vercel
-      run: npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+      run: |
+        curl -fsSL https://vercel.com/download | bash
+        vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --confirm
