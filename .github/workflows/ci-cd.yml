@@ -53,18 +53,3 @@ jobs:
     needs: build
     uses: ./.github/workflows/Docker.yml
     secrets: inherit
-
-  deploy:
-    needs: docker
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Deploy to Vercel
-      run: |
-        curl -fsSL https://vercel.com/download | bash
-        vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --confirm
