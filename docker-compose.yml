@@ -6,8 +6,6 @@ services:
       - "4567:4567"
     depends_on:
       - db
-    env_file:
-    - .env 
   db:
     image: mongo:latest
     ports:
