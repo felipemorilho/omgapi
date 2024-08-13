@@ -6,6 +6,7 @@ import ProductController from "../../controllers/productController.js";
 let mongoServer;
 
 beforeAll(async () => {
+
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
 
@@ -16,32 +17,37 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+
   await mongoose.disconnect();
   await mongoServer.stop();
 });
 
 beforeEach(async () => {
+
   await Product.deleteMany({});
 });
 
 describe("getAllProducts", () => {
+
   it("deve retornar todos os produtos", async () => {
-    const product1 = new Product({
+
+    const productOne = new Product({
       name: "Produto 1",
       image: "imagem1.jpg",
       price: 10,
       category: "lancamentos",
       section: "cabelo",
     });
-    const product2 = new Product({
+    const productTwo = new Product({
       name: "Produto 2",
       image: "imagem2.jpg",
       price: 20,
       category: "maisVendidos",
       section: "maquiagem",
     });
-    await product1.save();
-    await product2.save();
+
+    await productOne.save();
+    await productTwo.save();
 
     const req = {};
     const res = {
@@ -57,7 +63,9 @@ describe("getAllProducts", () => {
   });
 
   describe("createProduct", () => {
+
     it("deve criar um novo produto", async () => {
+
       const req = {
         body: {
           name: "Produto1",
@@ -77,16 +85,17 @@ describe("getAllProducts", () => {
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith(
         expect.objectContaining({
-            name: "Produto1",
-            image: "imagem1.jpg",
-            price: 10,
-            category: "kits",
-            section: "skincare",
+          name: "Produto1",
+          image: "imagem1.jpg",
+          price: 10,
+          category: "kits",
+          section: "skincare",
         })
       );
     });
 
     it("não deve criar um produto com categoria inválida", async () => {
+
       const req = {
         body: {
           name: "Produto 1",
@@ -96,6 +105,7 @@ describe("getAllProducts", () => {
           section: "maquiagem",
         },
       };
+
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
@@ -112,6 +122,7 @@ describe("getAllProducts", () => {
     });
 
     it("não deve criar um produto com categoria inválida", async () => {
+
       const req = {
         body: {
           name: "Produto 1",
@@ -121,6 +132,7 @@ describe("getAllProducts", () => {
           section: "semSecao",
         },
       };
+
       const res = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn(),
@@ -137,5 +149,3 @@ describe("getAllProducts", () => {
     });
   });
 });
-
-// Adicione outros testes para getProductById, getProductByCategory, etc.
