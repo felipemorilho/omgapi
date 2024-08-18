@@ -45,6 +45,15 @@ A princípio, o banco tem somente duas coleções: uma para imagens e outro para
 
 - Esse comando já irá instalar as dependências e subir o que for necessário para a aplicação.
 
+## EndPoints:
+
+> - `/products`
+  
+
+## Links Úteis
+
+- Link do deploy da API: <https://omgapi-two.vercel.app/>
+
 - Link do repo do frontend: <https://github.com/felipemorilho/ohmygloss>
 
 - Para armazenar as imgens, foi utilizado u mrepo do github: <https://github.com/felipemorilho/OmgApi_Images>
