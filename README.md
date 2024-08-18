@@ -47,7 +47,72 @@ A princípio, o banco tem somente duas coleções: uma para imagens e outro para
 
 ## EndPoints:
 
-> - `/products`
+ - GET `/products`
+ <br>*Retorna todos os produtos cadastrados*
+
+ - POST '/products'
+    <br> *Cria um novo registro de produto*:
+    <br> Corpo (JSON):
+    ```
+    {
+    "name": "<string>",
+    "price": number,
+    "category": "<string>", (opcional)
+    "section": "<string>",
+    "image": "<string>"
+    }
+    ```
+
+- GET '/products/:id'
+<br>*Retorna o produto do id especificado*
+
+- PUT '/products/:id'
+<br>*Atualiza o produto do id especificado*
+
+- DELETE '/products/:id'
+<br>*Deleta o produto do id especificado*
+
+- GET '/category/:category'
+    <br>*Retorna os produtos da categoria especificada*
+    <br> Categorias disponíveis:
+    ```
+        lancamentos
+        maisVendidos
+        kits
+    ```
+
+- GET '/section/:section'
+    <br>*Retorna os produtos da seção especificada*
+    <br> Seções disponíveis:
+    ```
+        cabelo
+        banho
+        skincare
+        maquiagem
+        perfume
+    ```
+
+- POST '/images'
+    <br> *Cria um novo registro para imagem*:
+    <br> Corpo (JSON):
+    ```
+    {
+    "url": "<string>",
+    "alt": "<string>"
+    }
+    ```
+
+- GET '/images'
+<br>*Retorna as iamgens cadastradas*
+
+- GET '/images/:id'
+<br>*Retorna a imagem do id especificado*
+
+- PUT '/images/:id'
+
+- DELETE '/images/:id'
+<br>*Deleta a iamgem do id especificado*
+
   
 
 ## Links Úteis
